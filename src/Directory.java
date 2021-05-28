@@ -1,4 +1,9 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class Directory {
@@ -87,6 +92,37 @@ public class Directory {
 
     public String getDirStruct() {
         String res=this.UtilgetDirStruct("",0);
+        return res;
+    }
+
+    private Directory UtilGetData(String str) throws IOException {
+        try (BufferedReader br = Files.newBufferedReader(Path.of(str),
+                StandardCharsets.US_ASCII)) {
+            String line = br.readLine();
+            //String diskStruct;
+            while (line != null) {
+                line =line.trim();
+                String[] attributes = line.split(" ");
+                if(attributes.length>1) {
+                    file f = new file();
+                    f.setName(attributes[0]);
+                    ArrayList<Integer> temp= new ArrayList<>();
+                    for(int i=1;i<attributes.length;i++)  temp.add(Integer.parseInt(attributes[i]));
+                    f.setAllocatedBlocks(temp);
+                    this.files.add(f);
+                }
+                line = br.readLine();
+            }
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return new Directory();
+    }
+
+    public Directory getData() throws IOException {
+        Directory res = new Directory();
+        res= res.UtilGetData("contiguousAllocation.txt");
         return res;
     }
 }
