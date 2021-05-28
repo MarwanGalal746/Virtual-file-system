@@ -2,13 +2,19 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         Directory dir = new Directory();
-        dir=dir.getData("contiguousAllocation.txt");
-        System.out.println(dir.getDirStruct());
+        //System.out.println(dir.getAllocBlocks("contiguousAllocation.txt"));
+//        ArrayList<Boolean> res = new ArrayList<Boolean>(1000);
+//        res.add(1000,false);
+//        System.out.println(res.get(0));
+//        Directory dir = new Directory();
+//        dir=dir.getData("contiguousAllocation.txt");
+//        System.out.println(dir.getDirStruct());
 		//String someString = "elephant";
 //		long count = someString.chars().filter(ch -> ch == 'e').count();
 //		System.out.println(count);

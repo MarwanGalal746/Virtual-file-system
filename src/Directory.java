@@ -8,31 +8,20 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Directory {
-    private String path;
     private String name;
     private ArrayList<file> files;
     private ArrayList<Directory> subDir;
 
     public Directory(String path, String name, ArrayList<file> files, ArrayList<Directory> subDir) {
-        this.path = path;
         this.name = name;
         this.files = files;
         this.subDir = subDir;
     }
 
     public Directory() {
-        path="";
         name="";
         files = new ArrayList<file>();
         subDir = new ArrayList<Directory>();
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public String getName() {
@@ -150,5 +139,23 @@ public class Directory {
             }
         }
         return root;
+    }
+
+    public String getBlocks(String f){
+        ArrayList<Boolean>res = new ArrayList<>();
+        String temp="";
+        try (BufferedReader br = Files.newBufferedReader(Path.of(f),
+                StandardCharsets.US_ASCII)) {
+            String line = br.readLine();
+            while (line != null){
+                temp=line;
+                line = br.readLine();
+                if(line==null)
+                    break;
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return temp;
     }
 }
