@@ -4,10 +4,10 @@ import java.util.ArrayList;
 public class Directory {
     private String path;
     private String name;
-    private ArrayList<File> files;
+    private ArrayList<file> files;
     private ArrayList<Directory> subDir;
 
-    public Directory(String path, String name, ArrayList<File> files, ArrayList<Directory> subDir) {
+    public Directory(String path, String name, ArrayList<file> files, ArrayList<Directory> subDir) {
         this.path = path;
         this.name = name;
         this.files = files;
@@ -17,7 +17,7 @@ public class Directory {
     public Directory() {
         path="";
         name="";
-        files = new ArrayList<File>();
+        files = new ArrayList<file>();
         subDir = new ArrayList<Directory>();
     }
 
@@ -37,11 +37,11 @@ public class Directory {
         this.name = name;
     }
 
-    public ArrayList<File> getFiles() {
+    public ArrayList<file> getFiles() {
         return files;
     }
 
-    public void setFiles(ArrayList<File> files) {
+    public void setFiles(ArrayList<file> files) {
         this.files = files;
     }
 
@@ -53,7 +53,7 @@ public class Directory {
         this.subDir = subDir;
     }
 
-    public void addFile(File file){
+    public void addFile(file file){
         files.add(file);
     }
 

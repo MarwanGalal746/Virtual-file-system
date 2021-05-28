@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 
-public class File {
+public class file {
     private String path;
     private String name;
     private ArrayList<Integer>allocatedBlocks;
 
-    public File(String path, String name, ArrayList<Integer> allocatedBlocks) {
+    public file(String path, String name, ArrayList<Integer> allocatedBlocks) {
         this.path = path;
         this.allocatedBlocks = allocatedBlocks;
         this.name = name;
     }
 
-    public File() {
+    public file() {
         path="";
         allocatedBlocks = new ArrayList<Integer>();
     }
