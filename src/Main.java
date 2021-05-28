@@ -6,9 +6,9 @@ import java.nio.file.Path;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-//        Directory dir = new Directory();
-//        dir=dir.getData("contiguousAllocation.txt");
-//        System.out.println(dir.getDirStruct());
+        Directory dir = new Directory();
+        dir=dir.getData("contiguousAllocation.txt");
+        System.out.println(dir.getDirStruct());
 		//String someString = "elephant";
 //		long count = someString.chars().filter(ch -> ch == 'e').count();
 //		System.out.println(count);
