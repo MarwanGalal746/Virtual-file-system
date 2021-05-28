@@ -34,6 +34,22 @@ public class contiguousAllocation {
         this.root = root;
     }
 
+    public void DisplayDiskStatus(){
+        int allocatedSpace=0;
+        for(int i=0 ; i<blocks.length();i++){
+            if(blocks.charAt(i)=='1') allocatedSpace++;
+        }
+        System.out.println("Empty space: " + (1000-allocatedSpace) + " KB");
+        System.out.println("Free space: " + (allocatedSpace) + " KB");
+        System.out.println("Empty Blocks in the Disk: " + (1000-allocatedSpace) + " blocks");
+        System.out.println("Allocated  Blocks in the Disk: " + (allocatedSpace) + " blocks");
+    }
 
+    public void DisplayDiskStructure(){
+        System.out.println(root.getDirStruct());
+    }
 
+    public void CreateFile(String path){
+
+    }
 }

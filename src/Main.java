@@ -7,7 +7,10 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Directory dir = new Directory();
+        contiguousAllocation x = new contiguousAllocation();
+        x.DisplayDiskStatus();
+        x.DisplayDiskStructure();
+//        Directory dir = new Directory();
         //System.out.println(dir.getAllocBlocks("contiguousAllocation.txt"));
 //        ArrayList<Boolean> res = new ArrayList<Boolean>(1000);
 //        res.add(1000,false);
