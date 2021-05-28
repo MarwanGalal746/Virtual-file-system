@@ -1,7 +1,25 @@
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
 public class Main {
 
-    public static void main(String[] args) {
-	    Directory dir = new Directory();
+    public static void main(String[] args) throws IOException {
+		FileReader fr = new FileReader("newFile.txt");
+		BufferedReader br=new BufferedReader(fr);
+		StringBuffer sb=new StringBuffer();
+		String line;
+		int x=00;
+		while((line=br.readLine())!=null)
+			x=Integer.parseInt(line);
+		x++;
+			System.out.println(x);
+
+    }
+}
+
+
+// testing file class and directory class
+/*Directory dir = new Directory();
 	    dir.setName("root");
 		Directory dir1 = new Directory();
 		Directory dir2 = new Directory();
@@ -25,7 +43,4 @@ public class Main {
 		dir1.addDir(dir3);
 		dir.addDir(dir1);
 		dir.addDir(dir2);
-		System.out.println(dir.getDirStruct());
-
-    }
-}
+		System.out.println(dir.getDirStruct());*/
