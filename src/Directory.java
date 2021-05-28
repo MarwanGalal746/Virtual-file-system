@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Directory {
     private String path;
@@ -95,34 +96,59 @@ public class Directory {
         return res;
     }
 
-    private Directory UtilGetData(String str) throws IOException {
-        try (BufferedReader br = Files.newBufferedReader(Path.of(str),
+    private ArrayList<String> loadData(String f) throws IOException {
+        ArrayList<String> res = new ArrayList<String>();
+        try (BufferedReader br = Files.newBufferedReader(Path.of(f),
                 StandardCharsets.US_ASCII)) {
             String line = br.readLine();
-            //String diskStruct;
-            while (line != null) {
-                line =line.trim();
-                String[] attributes = line.split(" ");
-                if(attributes.length>1) {
-                    file f = new file();
-                    f.setName(attributes[0]);
-                    ArrayList<Integer> temp= new ArrayList<>();
-                    for(int i=1;i<attributes.length;i++)  temp.add(Integer.parseInt(attributes[i]));
-                    f.setAllocatedBlocks(temp);
-                    this.files.add(f);
-                }
+            while (line != null){
+                res.add(line);
                 line = br.readLine();
             }
-
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        return new Directory();
+        return res;
     }
 
-    public Directory getData() throws IOException {
-        Directory res = new Directory();
-        res= res.UtilGetData("contiguousAllocation.txt");
-        return res;
+    public Directory getData(String f) throws IOException {
+        ArrayList<String>data = loadData(f);
+        Directory root = new Directory();
+        if(data.size()>0){
+            root.setName(data.get(0));
+            Stack<Directory>allDirs = new Stack<>();
+            allDirs.push(root);
+            for(int i=1 ; i<data.size();i++){
+                int numOfSpaces= (int) data.get(i).chars().filter(ch -> ch == ' ').count();
+                data.set(i,data.get(i).trim());
+                String[] content=data.get(i).split(" ");
+                if(content.length>1){
+                    numOfSpaces-=2;
+                    file newFile = new file();
+                    newFile.setName(content[0]);
+                    ArrayList<Integer>temp = new ArrayList<>();
+                    for(int r=1;r<content.length;r++)
+                        temp.add(Integer.parseInt(content[r]));
+                    newFile.setAllocatedBlocks(temp);
+                    allDirs.peek().addFile(newFile);
+                    if(data.get(i+1).charAt(0)==('0') || data.get(i+1).charAt(0)==('1'))
+                        break;
+                    else if((int) data.get(i+1).chars().filter(ch -> ch == ' ').count() < numOfSpaces){
+                        allDirs.pop();
+                    }
+                } else {
+                    Directory newDir = new Directory();
+                    newDir.setName(content[0]);
+                    allDirs.peek().addDir(newDir);
+                    allDirs.push(newDir);
+                    if(data.get(i+1).charAt(0)==('0') || data.get(i+1).charAt(0)==('1'))
+                        break;
+                    else if((int) data.get(i+1).chars().filter(ch -> ch == ' ').count() <= numOfSpaces){
+                        allDirs.pop();
+                    }
+                }
+            }
+        }
+        return root;
     }
 }
