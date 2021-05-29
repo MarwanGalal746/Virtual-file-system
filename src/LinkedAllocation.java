@@ -47,7 +47,7 @@ public class LinkedAllocation {
         public static void printList(LinkedList list)
         {
             Node currNode = list.head;
-            System.out.print("LinkedList: ");
+            System.out.print("File Indexes: ");
 
             while (currNode != null)
             {
