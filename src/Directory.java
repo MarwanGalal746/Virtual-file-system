@@ -15,6 +15,7 @@ public class Directory {
     private String name;
     private ArrayList<file> files;
     private ArrayList<Directory> subDir;
+    private Directory temp;
 
     public Directory(String path, String name, ArrayList<file> files, ArrayList<Directory> subDir) {
         this.name = name;
@@ -26,6 +27,46 @@ public class Directory {
         name="";
         files = new ArrayList<file>();
         subDir = new ArrayList<Directory>();
+    }
+
+    int dirExist(String dirName){
+        int index = -1;
+        for (int i = 0; i < subDir.size(); i++) {
+            if(dirName == subDir.get(i).name){
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+    static Directory checkPath(String path, Directory root){
+        Directory temp = root;
+        int index;
+        String[] pathSections = path.split("/");
+        if(temp.name != pathSections[0]){
+            return null;
+        }
+        for (int i = 1; i < pathSections.length - 1; i++) {
+            index = temp.dirExist(pathSections[i]);
+            if(index != -1){
+                temp = temp.subDir.get(index);
+            }else{
+                return null;
+            }
+        }
+        return temp;
+    }
+
+    boolean fileExist(String fileName){
+        boolean found = false;
+        for (int i = 0; i < subDir.size(); i++) {
+            if(fileName == files.get(i).getName()){
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 
     public String getName() {
@@ -54,6 +95,61 @@ public class Directory {
 
     public void addFile(file file){
         files.add(file);
+    }
+    public boolean removeFile(String fileName, String blocks){
+        file temp;
+        for (int i = 0; i < files.size(); i++) {
+            temp = files.get(i);
+            if(temp.getName() == fileName){
+                //0001010110
+                ArrayList<Integer> allocatedBlocks = temp.getAllocatedBlocks();
+                for (int j = 0; j < allocatedBlocks.size(); j++) {
+                    blocks = blocks.substring(0,allocatedBlocks.get(i))+'0'+ blocks.substring(allocatedBlocks.get(i+1));
+                }
+                files.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+/*
+    public boolean removeDir(String dirName, String blocks){
+        Directory temp;
+        for (int i = 0; i < subDir.size(); i++) {
+            if(subDir.get(i).getName() == dirName){
+                temp = subDir.get(i);
+                for (int j = 0; j < temp.files.size(); j++) {
+                    temp.removeFile(temp.files.get(j).getName(), blocks);
+                }
+                //temp.removeDir()
+                return true;
+            }
+        }
+        return false;
+    }
+    */
+    //x subdir => z y
+    /*
+    public void removeThisDir(String blocks){
+        Directory temp;
+        for (int i = 0; i < subDir.size(); i++) {
+            temp = subDir.get(i);
+            for (int j = 0; j < temp.files.size(); j++) {
+                temp.removeFile(temp.files.get(j).getName(), blocks);
+            }
+            for (int j = 0; j < temp.subDir.size(); j++) {
+                temp.subDir.get(j).removeThisDir(blocks);
+            }
+        }
+    }*/
+    public void removeThisDir(String blocks){
+        for (int j = 0; j < this.files.size(); j++) {
+            this.removeFile(this.files.get(j).getName(), blocks);
+        }
+        for (int i = 0; i < subDir.size(); i++) {
+            temp = subDir.get(i);
+            temp.removeThisDir(blocks);
+        }
     }
 
     public void addDir(Directory dir){

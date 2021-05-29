@@ -8,8 +8,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        LinkedAllocation linkedAllocation = new LinkedAllocation();
-        linkedAllocation.createFile("file.txt 7");
+        //LinkedAllocation linkedAllocation = new LinkedAllocation();
+        //linkedAllocation.createFile("file.txt 7");
+        Directory root = new Directory();
+        root.checkPath("root/folder1/file.txt",root);
 
 
 
