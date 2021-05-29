@@ -57,7 +57,7 @@ public class IndexedAllocation {
         System.out.println(root.getDirStruct());
     }
 
-    public void CreateFile(String path, int size){
+    public void createFile(String path, int size){
         Directory parent;
         parent = Directory.checkPath(path, root);
         String[] pathSections = path.split("/");
@@ -86,6 +86,26 @@ public class IndexedAllocation {
                 }else {
                     System.out.println("Error There Is No Empty Space.");
                 }
+            }else{
+                System.out.println("Error File Is Already Exist.");
+            }
+        }else {
+            System.out.println("Error This Path Not Exist.");
+        }
+    }
+
+    public void createFolder(String path){
+        Directory parent;
+        parent = Directory.checkPath(path, root);
+        String[] pathSections = path.split("/");
+        String newDirName = pathSections[pathSections.length-1];
+        if(parent != null){
+            if(parent.fileExist(newDirName)){
+                Directory newDir = new Directory();
+                newDir.setName(newDirName);
+                newDir.setSubDir(new ArrayList<>());
+                newDir.setFiles(new ArrayList<>());
+                parent.addDir(newDir);
             }else{
                 System.out.println("Error File Is Already Exist.");
             }
