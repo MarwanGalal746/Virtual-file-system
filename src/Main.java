@@ -7,13 +7,19 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
+        LinkedAllocation linkedAllocation = new LinkedAllocation();
+        linkedAllocation.createFile("file.txt 7");
+
+
+
 //        contiguousAllocation x = new contiguousAllocation();
 //        x.DisplayDiskStatus();
 //        x.DisplayDiskStructure();
-        Directory dir = new Directory();
-        dir=dir.getData("contiguousAllocation.txt");
-        System.out.println(dir.getDirStruct());
-        dir.saveToFile("test.txt","111001010101010101010101111111000");
+//        Directory dir = new Directory();
+ //       dir=dir.getData("contiguousAllocation.txt");
+   //     System.out.println(dir.getDirStruct());
+     //   dir.saveToFile("test.txt","111001010101010101010101111111000");
         //System.out.println(dir.getDirStruct());
         //dir.saveToFile("test.txt");
         //System.out.println(dir.getAllocBlocks("contiguousAllocation.txt"));
@@ -21,8 +27,8 @@ public class Main {
 //        res.add(1000,false);
 //        System.out.println(res.get(0));
 //        Directory dir = new Directory();
-//        dir=dir.getData("contiguousAllocation.txt");
-//        System.out.println(dir.getDirStruct());
+     //  dir=dir.getData("contiguousAllocation.txt");
+      // System.out.println(dir.getDirStruct());
 		//String someString = "elephant";
 //		long count = someString.chars().filter(ch -> ch == 'e').count();
 //		System.out.println(count);
