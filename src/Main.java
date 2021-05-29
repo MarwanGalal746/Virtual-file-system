@@ -7,11 +7,51 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
+        IndexedAllocation test = new IndexedAllocation();
+        //System.out.println(test.getRoot().getDirStruct());
+        //System.out.println(test.getBlocks());
         //LinkedAllocation linkedAllocation = new LinkedAllocation();
         //linkedAllocation.createFile("file.txt 7");
         Directory root = new Directory();
-        root.checkPath("root/folder1/file.txt",root);
+        root.setName("root");
+        Directory dir1 = new Directory();
+        dir1.setName("dir1");
+        Directory dir2 = new Directory();
+        dir2.setName("dir2");
+        Directory dir3 = new Directory();
+        dir3.setName("dir3");
+        Directory dir4 = new Directory();
+        dir4.setName("dir4");
+        Directory dir5 = new Directory();
+        dir5.setName("dir5");
+        Directory dir6 = new Directory();
+        dir6.setName("dir6");
+
+        file file1 = new file();
+        file file2 = new file();
+        file file3 = new file();
+
+        test.setRoot(root);
+        root.addDir(dir1);
+        dir1.addDir(dir2);
+        //dir2.addDir(dir3);
+        //dir3.addDir(dir4);
+        //dir5.addDir(dir6);
+        test.createFile("root/file", 5);
+        test.createFile("root/dir1/file2", 5);
+        test.createFile("root/dir1/dir2/file3", 5);
+        test.deleteFile("root/dir1/file2");
+        test.deleteFolder("root/dir1");
+
+        /*test.createFolder("root/dir1/dir2/dir2.1");
+        test.createFile("root/dir1/dir2/dir2.1/file2.11", 5);
+        System.out.println(root.getDirStruct());
+
+        for (int i = 0; i < root.getFiles().size(); i++) {
+            System.out.println(root.getFiles().get(i));
+        }*/
+        root.saveToFile("indexedAllocation.txt", test.getBlocks());
+        //System.out.println(root.getData("indexedAllocation.txt"));
 
 
 

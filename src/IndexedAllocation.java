@@ -9,10 +9,18 @@ public class IndexedAllocation {
 
 
     public IndexedAllocation() throws IOException {
+        File temp = new File("indexedAllocation.txt");
         fileName="indexedAllocation.txt";
         root = new Directory();
-        root = root.getData(fileName);
-        blocks = root.getBlocks(fileName);
+        if(temp.length() == 0){
+            blocks = "";
+            for (int i = 0; i < 1000; i++) {
+                blocks += "0";
+            }
+        }else{
+            root = root.getData(fileName);
+            blocks = root.getBlocks(fileName);
+        }
     }
 
     public String getBlocks() {
@@ -59,27 +67,31 @@ public class IndexedAllocation {
 
     public void createFile(String path, int size){
         Directory parent;
+        size++;
         parent = Directory.checkPath(path, root);
         String[] pathSections = path.split("/");
         String newFileName = pathSections[pathSections.length-1];
         if(parent != null){
-            if(parent.fileExist(newFileName)){
-                if(getEmptyBlockSize() >= size + 1){
+            if(!parent.fileExist(newFileName)){
+                if(getEmptyBlockSize() >= size){
                     String newBlocks = "";
                     file newFile = new file();
                     newFile.setName(newFileName);
                     ArrayList<Integer> allocatedBlocks = new ArrayList<>();
+                    //111100111000  blocks
+                    //11111
                     for (int i = 0; i < blocks.length(); i++) {
                         if(blocks.charAt(i) == '0'){
                             newBlocks = newBlocks + "1";
                             allocatedBlocks.add(i);
                             size--;
                         }else{
-                            newBlocks = newBlocks + "0";
+                            newBlocks = newBlocks + "1";
                         }
                         if(size == 0){
                             blocks = newBlocks + blocks.substring(newBlocks.length());
                             newFile.setAllocatedBlocks(allocatedBlocks);
+                            parent.addFile(newFile);
                             break;
                         }
                     }
@@ -100,7 +112,7 @@ public class IndexedAllocation {
         String[] pathSections = path.split("/");
         String newDirName = pathSections[pathSections.length-1];
         if(parent != null){
-            if(parent.fileExist(newDirName)){
+            if(!parent.fileExist(newDirName)){
                 Directory newDir = new Directory();
                 newDir.setName(newDirName);
                 newDir.setSubDir(new ArrayList<>());
@@ -121,7 +133,7 @@ public class IndexedAllocation {
         String tempFileName = pathSections[pathSections.length-1];
         if(parent != null){
             if(parent.fileExist(tempFileName)){
-                parent.removeFile(tempFileName, blocks);
+                blocks = parent.removeFile(tempFileName, blocks);
             }else{
                 System.out.println("Error File Is Already Exist.");
             }
@@ -136,9 +148,13 @@ public class IndexedAllocation {
         String[] pathSections = path.split("/");
         String newDirName = pathSections[pathSections.length-1];
         if(parent != null){
-            if(parent.dirExist(newDirName) == -1){
+            int index = parent.dirExist(newDirName);
+            if(index != -1){
                 Directory tempDir = new Directory();
-                tempDir.removeThisDir(blocks);
+                tempDir = parent.getSubDir().get(index);
+                System.out.println(tempDir.getName());
+                blocks = tempDir.removeThisDir(blocks);
+                parent.getSubDir().remove(index);
 
             }else{
                 System.out.println("Error Folder Is Already Exist.");

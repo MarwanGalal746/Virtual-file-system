@@ -32,7 +32,7 @@ public class Directory {
     int dirExist(String dirName){
         int index = -1;
         for (int i = 0; i < subDir.size(); i++) {
-            if(dirName == subDir.get(i).name){
+            if(subDir.size() > 0 && dirName.equalsIgnoreCase(subDir.get(i).name)){
                 index = i;
                 break;
             }
@@ -43,8 +43,9 @@ public class Directory {
     static Directory checkPath(String path, Directory root){
         Directory temp = root;
         int index;
+        path = path.trim();
         String[] pathSections = path.split("/");
-        if(temp.name != pathSections[0]){
+        if(!temp.name.equalsIgnoreCase(pathSections[0])){
             return null;
         }
         for (int i = 1; i < pathSections.length - 1; i++) {
@@ -61,7 +62,7 @@ public class Directory {
     boolean fileExist(String fileName){
         boolean found = false;
         for (int i = 0; i < subDir.size(); i++) {
-            if(fileName == files.get(i).getName()){
+            if(files.size() > 0 && fileName.equalsIgnoreCase(files.get(i).getName())){
                 found = true;
                 break;
             }
@@ -96,21 +97,23 @@ public class Directory {
     public void addFile(file file){
         files.add(file);
     }
-    public boolean removeFile(String fileName, String blocks){
+    public String removeFile(String fileName, String blocks){
         file temp;
         for (int i = 0; i < files.size(); i++) {
             temp = files.get(i);
-            if(temp.getName() == fileName){
+            if(fileName.equalsIgnoreCase(temp.getName())){
+                //   3 5
                 //0001010110
+                //000 + 0 + 010110
                 ArrayList<Integer> allocatedBlocks = temp.getAllocatedBlocks();
                 for (int j = 0; j < allocatedBlocks.size(); j++) {
-                    blocks = blocks.substring(0,allocatedBlocks.get(i))+'0'+ blocks.substring(allocatedBlocks.get(i+1));
+                    blocks = blocks.substring(0,allocatedBlocks.get(j))+'0'+ blocks.substring(allocatedBlocks.get(j) + 1);
                 }
                 files.remove(i);
-                return true;
+                break;
             }
         }
-        return false;
+        return blocks;
     }
 /*
     public boolean removeDir(String dirName, String blocks){
@@ -142,14 +145,15 @@ public class Directory {
             }
         }
     }*/
-    public void removeThisDir(String blocks){
+    public String removeThisDir(String blocks){
         for (int j = 0; j < this.files.size(); j++) {
-            this.removeFile(this.files.get(j).getName(), blocks);
+            blocks = this.removeFile(this.files.get(j).getName(), blocks);
         }
         for (int i = 0; i < subDir.size(); i++) {
             temp = subDir.get(i);
-            temp.removeThisDir(blocks);
+            blocks = temp.removeThisDir(blocks);
         }
+        return blocks;
     }
 
     public void addDir(Directory dir){
@@ -214,13 +218,14 @@ public class Directory {
                 data.set(i,data.get(i).trim());
                 String[] content=data.get(i).split(" ");
                 if(content.length>1){
-                    numOfSpaces-=2;
+                    //numOfSpaces-=2;
                     file newFile = new file();
                     newFile.setName(content[0]);
                     ArrayList<Integer>temp = new ArrayList<>();
                     for(int r=1;r<content.length;r++){
                         temp.add(Integer.parseInt(content[r]));
                     }
+                    numOfSpaces -= content.length -1;
                     newFile.setAllocatedBlocks(temp);
                     allDirs.peek().addFile(newFile);
                     if(data.get(i+1).charAt(0)==('0') || data.get(i+1).charAt(0)==('1'))
