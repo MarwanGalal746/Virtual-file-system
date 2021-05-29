@@ -1,9 +1,21 @@
 root
    file3 4 3
-      dir1
+   dir1
       file1 10 2
       dir3
          file4 15 4
+         dir4
+            dir5
+               dir6
+                  dir7
+                     x
+                        y
+                        z
+                           t 1 3
    dir2
       file2 22 1
+   dir123
+      asdf
+         2 3 4
+      7 8 9
 111001010101010101010101111111000

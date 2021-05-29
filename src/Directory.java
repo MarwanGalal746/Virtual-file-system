@@ -6,6 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Directory {
     private String name;
@@ -106,7 +110,9 @@ public class Directory {
         if(data.size()>0){
             root.setName(data.get(0));
             Stack<Directory>allDirs = new Stack<>();
+            Stack<Integer>spaces = new Stack<>();
             allDirs.push(root);
+            spaces.push(0);
             for(int i=1 ; i<data.size();i++){
                 int numOfSpaces= (int) data.get(i).chars().filter(ch -> ch == ' ').count();
                 data.set(i,data.get(i).trim());
@@ -116,24 +122,36 @@ public class Directory {
                     file newFile = new file();
                     newFile.setName(content[0]);
                     ArrayList<Integer>temp = new ArrayList<>();
-                    for(int r=1;r<content.length;r++)
+                    for(int r=1;r<content.length;r++){
                         temp.add(Integer.parseInt(content[r]));
+                    }
                     newFile.setAllocatedBlocks(temp);
                     allDirs.peek().addFile(newFile);
                     if(data.get(i+1).charAt(0)==('0') || data.get(i+1).charAt(0)==('1'))
                         break;
                     else if((int) data.get(i+1).chars().filter(ch -> ch == ' ').count() < numOfSpaces){
                         allDirs.pop();
+                        spaces.pop();
+                        while((int) data.get(i+1).chars().filter(ch -> ch == ' ').count() <= spaces.peek()){
+                            allDirs.pop();
+                            spaces.pop();
+                        }
                     }
                 } else {
                     Directory newDir = new Directory();
                     newDir.setName(content[0]);
                     allDirs.peek().addDir(newDir);
                     allDirs.push(newDir);
+                    spaces.push(numOfSpaces);
                     if(data.get(i+1).charAt(0)==('0') || data.get(i+1).charAt(0)==('1'))
                         break;
                     else if((int) data.get(i+1).chars().filter(ch -> ch == ' ').count() <= numOfSpaces){
                         allDirs.pop();
+                        spaces.pop();
+                        while((int) data.get(i+1).chars().filter(ch -> ch == ' ').count() <= spaces.peek()){
+                            allDirs.pop();
+                            spaces.pop();
+                        }
                     }
                 }
             }
@@ -159,7 +177,48 @@ public class Directory {
         return temp;
     }
 
+    private String UtilsaveToFile(String res, int level){
+        res+=printSpaces("",level);
+        res+=this.name;
+        res+='\n';
+        if(this.files.size()>0){
+            for(int i=0 ; i<files.size();i++){
+                res+=printSpaces("",level+1);
+                res+=files.get(i).getName();
+                for(int r=0;r<files.get(i).getAllocatedBlocks().size();r++){
+                    res+=' ';
+                    res+=String.valueOf(files.get(i).getAllocatedBlocks().get(r));
+                }
+                res+='\n';
+            }
+        }
+        if(this.subDir.size()==0) return res;
+        for(int i=0 ; i<this.subDir.size();i++){
+            res+=this.subDir.get(i).UtilsaveToFile("", level+1);
+        }
+        return res;
+    }
 
-
-
+    public void saveToFile(String f,String blocks) throws IOException {
+        BufferedWriter bw = null;
+        try {
+            String res=this.UtilsaveToFile("",0);
+            res+=blocks;
+            File destFile = new File(f);
+            FileWriter fw = new FileWriter(destFile);
+            bw = new BufferedWriter(fw);
+            bw.write(res);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        finally
+        {
+            try{
+                if(bw!=null)
+                    bw.close();
+            }catch(Exception ex){
+                System.out.println("Error in closing the BufferedWriter"+ex);
+            }
+        }
+    }
 }
