@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        IndexedAllocation test = new IndexedAllocation();
+        contiguousAllocation test = new contiguousAllocation();
         //System.out.println(test.getRoot().getDirStruct());
         //System.out.println(test.getBlocks());
         //LinkedAllocation linkedAllocation = new LinkedAllocation();
@@ -15,17 +15,17 @@ public class Main {
         Directory root = new Directory();
         root.setName("root");
         Directory dir1 = new Directory();
-        dir1.setName("dir1");
+        dir1.setName("dir13");
         Directory dir2 = new Directory();
-        dir2.setName("dir2");
+        dir2.setName("dir24");
         Directory dir3 = new Directory();
-        dir3.setName("dir3");
+        dir3.setName("dir35");
         Directory dir4 = new Directory();
-        dir4.setName("dir4");
+        dir4.setName("dir46");
         Directory dir5 = new Directory();
-        dir5.setName("dir5");
+        dir5.setName("dir57");
         Directory dir6 = new Directory();
-        dir6.setName("dir6");
+        dir6.setName("dir64");
 
         file file1 = new file();
         file file2 = new file();
@@ -37,10 +37,10 @@ public class Main {
         //dir2.addDir(dir3);
         //dir3.addDir(dir4);
         //dir5.addDir(dir6);
-        test.createFile("root/file", 5);
-        test.createFile("root/dir1/file2", 5);
-        test.createFile("root/dir1/dir2/file3", 5);
-        test.deleteFile("root/dir1/file2");
+        test.createFile("root/file241",5);
+       // test.createFile("root/dir13/file2123124",3);
+       // test.createFile("root/dir24/dir2/file31241241",5);
+        test.deleteFile("root/dir1/file1");
         test.deleteFolder("root/dir1");
 
         /*test.createFolder("root/dir1/dir2/dir2.1");
@@ -50,7 +50,7 @@ public class Main {
         for (int i = 0; i < root.getFiles().size(); i++) {
             System.out.println(root.getFiles().get(i));
         }*/
-        root.saveToFile("indexedAllocation.txt", test.getBlocks());
+        root.saveToFile("contiguousAllocation.txt", test.getBlocks());
         //System.out.println(root.getData("indexedAllocation.txt"));
 
 
