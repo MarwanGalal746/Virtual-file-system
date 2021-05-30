@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LinkedAllocation {
 
@@ -57,37 +59,52 @@ public class LinkedAllocation {
         }
     }
 
-    public LinkedAllocation() throws IOException {
+    public LinkedAllocation() throws IOException
+    {
+        File temp = new File("LinkedAllocation.txt");
         fileName="LinkedAllocation.txt";
         root = new Directory();
-        root=root.getData(fileName);
-        blocks= "10010110001000";
+        if(temp.length() == 0){
+            blocks = "";
+            for (int i = 0; i < 1000; i++) {
+                blocks += "0";
+            }
+        }else{
+            root = root.getData(fileName);
+            blocks = root.getBlocks(fileName);
+        }
     }
 
-    public void createFile(String path)
+    public void createFile(String path, int size)
     {
-        String[] info = path.split(" ");
-        int size = Integer.parseInt(info[1]);
-        /*info[0]=info[0].replace("\\","@");
-        String[] Name = info[0].split("@");
-        int size = Integer.parseInt(info[1]);
-        this.fileName= Name[1];*/
+        Directory parent;
+        parent = Directory.checkPath(path, root);
+        String[] pathSections = path.split("/");
+        String newFileName = pathSections[pathSections.length-1];
         LinkedList file = new LinkedList();
-
-        for (int i = 0; i < size; i++)
+        file f = new file();
+        f.setName(pathSections[1]);
+        ArrayList<Integer> allocatedBlocks = new ArrayList<>();
+        if(parent != null && !parent.fileExist(newFileName))
         {
-            for (int j = 0; j < blocks.length(); j++)
-            {
-                String bit = String.valueOf(blocks.charAt(j));
-
-                if(bit.equalsIgnoreCase("0"))
+                for (int i = 0; i < size; i++)
                 {
-                    file.insert(file, j);
-                    blocks=blocks.replaceFirst("0","1");
-                    break;
+                    for (int j = 0; j < blocks.length(); j++)
+                    {
+                        String bit = String.valueOf(blocks.charAt(j));
+
+                        if (bit.equalsIgnoreCase("0"))
+                        {
+                            file.insert(file, j);
+                            allocatedBlocks.add(j);
+                            blocks = blocks.replaceFirst("0", "1");
+                            break;
+                        }
+                    }
                 }
-            }
+
         }
+        f.setAllocatedBlocks(allocatedBlocks);
         file.printList(file);
         //root.addFile(file);
     }
