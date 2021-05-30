@@ -37,8 +37,8 @@ public class Main {
         //dir2.addDir(dir3);
         //dir3.addDir(dir4);
         //dir5.addDir(dir6);
-        test.createFile("root/file241",5);
-       // test.createFile("root/dir13/file2123124",3);
+        test.createFile("root/file24112",5);
+        test.createFile("root/dir13/file214223124",3);
        // test.createFile("root/dir24/dir2/file31241241",5);
         test.deleteFile("root/dir1/file1");
         test.deleteFolder("root/dir1");

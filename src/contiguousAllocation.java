@@ -37,15 +37,16 @@ public class contiguousAllocation {
 
     public int findMax(ArrayList<Integer> arr)
     {
-        int max = -1;
+        int max = -1,index = -1;
         for(int i=0; i<arr.size(); i++)
         {
             if(arr.get(i) > max)
             {
-                max = i;
+                index=i;
+                max = arr.get(i);
             }
         }
-        return max;
+        return index;
     }
 
     public int calculateEmptyBlocks(){
@@ -54,16 +55,15 @@ public class contiguousAllocation {
         ArrayList<Integer> blocksLocation = new ArrayList<Integer>();
         for(int i = 0 ; i < blocks.length(); i++){
             if(blocks.charAt(i)=='0'){
+                blocksLocation.add(i);
                 emptyBS++;
             }
             else
             {
                 emptyBlocks.add(emptyBS);
-                blocksLocation.add(i);
                 emptyBS=0;
             }
         }
-
         return blocksLocation.get(findMax(emptyBlocks));
     }
     public boolean emptyDisk()
@@ -96,7 +96,6 @@ public class contiguousAllocation {
 
     public void createFile(String path,int size) {
         Directory parent;
-        size++;
         parent = Directory.checkPath(path, root);
         String[] pathSections = path.split("/");
         String newFileName = pathSections[pathSections.length-1];
@@ -110,19 +109,19 @@ public class contiguousAllocation {
                 {
                     location = blocks.length() / 2 ;
 
-                    for (int i = location; i < size; i++) {
+                    for (int i = location; i < location+size; i++) {
                         blocks = blocks.substring(0, i) + "1" + blocks.substring(i + 1);
-                        allocatedBlocks.add(i);
                     }
                 }
                 else {
                     calculateEmptyBlocks();
                     location = calculateEmptyBlocks();
-                    for (int i = location; i < size; i++) {
-                        blocks = blocks.substring(0, i) + "1" + blocks.substring(i + 1);
-                        allocatedBlocks.add(i);
+                    for (int i = location; i < location+size; i++) {
+                       this.blocks = blocks.substring(0, i) + "1" + blocks.substring(i + 1);
                     }
                 }
+                allocatedBlocks.add(location);
+                allocatedBlocks.add(size);
                 newFile.setAllocatedBlocks(allocatedBlocks);
                 parent.addFile(newFile);
             }else{
