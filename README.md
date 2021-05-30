@@ -10,19 +10,19 @@ This project is simulation of the allocation and de-allocation of files and fold
 
 The techniques which simulated in this project:
 
-- **[Contiguous allocation](.src/contiguousAllocation.java):**
+- **[Contiguous allocation](src/contiguousAllocation.java):**
 
   In this technique, each file occupies a contiguous set of blocks on the disk. For example, if a file requires n blocks and is given a block b as the starting location, then the blocks assigned to the file will be: *b, b+1, b+2,……b+n-1.* This means that given the starting block address and the length of the file (in terms of blocks required), we can determine the blocks occupied by the file.
 
   
 
-- **[Indexed allocation](.src/indexedAllocation.java):**
+- **[Indexed allocation](src/indexedAllocation.java):**
 
   In this scheme, a special block known as the Index block contains the pointers to all the blocks occupied by a file. Each file has its own index block. The ith entry in the index block contains the disk address of the ith file block.
 
   
 
-- **[Linked allocation](.src/indexedAllocation.java):**
+- **[Linked allocation](src/indexedAllocation.java):**
 
   In this scheme, each file is a linked list of disk blocks which need not be contiguous. The disk blocks can be scattered anywhere on the disk.
   The directory entry contains a pointer to the starting and the ending file block. Each block contains a pointer to the next block occupied by the file.
