@@ -7,35 +7,13 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class contiguousAllocation {
-    private Directory root;
-    private String blocks;
-    private String fileName;
+public class contiguousAllocation extends allocation{
 
-    public contiguousAllocation() throws IOException {
-        fileName="contiguousAllocation.txt";
-        root = new Directory();
-        root=root.getData(fileName);
-        blocks= root.getBlocks(fileName);
+    public contiguousAllocation(String fileName) throws IOException {
+        super(fileName);
     }
 
-    public String getBlocks() {
-        return blocks;
-    }
-
-    public void setBlocks(String blocks) {
-        this.blocks = blocks;
-    }
-
-    public Directory getRoot() {
-        return root;
-    }
-
-    public void setRoot(Directory root) {
-        this.root = root;
-    }
-
-    public int findMax(ArrayList<Integer> arr)
+    private int findMax(ArrayList<Integer> arr)
     {
         int max = -1,index = -1;
         for(int i=0; i<arr.size(); i++)
@@ -49,11 +27,11 @@ public class contiguousAllocation {
         return index;
     }
 
-    public int calculateEmptyBlocks(){
+    private int calculateEmptyBlocks(){
         int emptyBS = 0;
         ArrayList<Integer> emptyBlocks = new ArrayList<Integer>();
         ArrayList<Integer> blocksLocation = new ArrayList<Integer>();
-        for(int i = 0 ; i < blocks.length(); i++){
+        for(int i = 0 ; i < getBlocks().length(); i++){
             if(blocks.charAt(i)=='0'){
                 blocksLocation.add(i);
                 emptyBS++;
@@ -66,7 +44,7 @@ public class contiguousAllocation {
         }
         return blocksLocation.get(findMax(emptyBlocks));
     }
-    public boolean emptyDisk()
+    private boolean emptyDisk()
     {
         boolean flag = true;
         for(int i=0; i<blocks.length(); i++)
@@ -78,20 +56,6 @@ public class contiguousAllocation {
             }
         }
         return flag;
-    }
-    public void DisplayDiskStatus(){
-        int allocatedSpace=0;
-        for(int i=0 ; i<blocks.length();i++){
-            if(blocks.charAt(i)=='1') allocatedSpace++;
-        }
-        System.out.println("Empty space: " + (1000-allocatedSpace) + " KB");
-        System.out.println("Free space: " + (allocatedSpace) + " KB");
-        System.out.println("Empty Blocks in the Disk: " + (1000-allocatedSpace) + " blocks");
-        System.out.println("Allocated  Blocks in the Disk: " + (allocatedSpace) + " blocks");
-    }
-
-    public void DisplayDiskStructure(){
-        System.out.println(root.getDirStruct());
     }
 
     public void createFile(String path,int size) {
@@ -132,61 +96,38 @@ public class contiguousAllocation {
         }
     }
 
-    public void createFolder(String path){
-        Directory parent;
-        parent = Directory.checkPath(path, root);
-        String[] pathSections = path.split("/");
-        String newDirName = pathSections[pathSections.length-1];
-        if(parent != null){
-            if(!parent.fileExist(newDirName)){
-                Directory newDir = new Directory();
-                newDir.setName(newDirName);
-                newDir.setSubDir(new ArrayList<>());
-                newDir.setFiles(new ArrayList<>());
-                parent.addDir(newDir);
-            }else{
-                System.out.println("Error File Is Already Exist.");
-            }
-        }else {
-            System.out.println("Error This Path Not Exist.");
-        }
-    }
+    @Override
+    public void deAllocation(Directory parent, String fileName) {
+        file temp;
+        for(int i=0 ; i<parent.getFiles().size();i++)
+            System.out.print(parent.getFiles().get(i).getName() + " ");
+        System.out.println();
+        for (int i = 0; i < parent.getFiles().size(); i++) {
+            temp = parent.getFiles().get(i);
+            if(fileName.equalsIgnoreCase(temp.getName())){
+//                //   3 5
+//                //0001010110
+//                //000 + 0 + 010110
+//                ArrayList<Integer> allocatedBlocks = temp.getAllocatedBlocks();
+//                for (int j = 0; j < allocatedBlocks.size(); j++) {
+//                    blocks = blocks.substring(0,allocatedBlocks.get(j))+'0'+ blocks.substring(allocatedBlocks.get(j) + 1);
+//                }
+                for(int r=parent.getFiles().get(i).getAllocatedBlocks().get(0); r<parent.getFiles().get(i).getAllocatedBlocks().get(0)+parent.getFiles().get(i).getAllocatedBlocks().get(1) ; r++) {
+                    this.blocks = this.blocks.substring(0, r) + "0" + this.blocks.substring(r + 1);
+                }
+                parent.getFiles().remove(i);
 
-    public void deleteFile(String path){
-        Directory parent;
-        parent = Directory.checkPath(path, root);
-        String[] pathSections = path.split("/");
-        String tempFileName = pathSections[pathSections.length-1];
-        if(parent != null){
-            if(parent.fileExist(tempFileName)){
-                blocks = parent.removeFile(tempFileName, blocks);
-            }else{
-                System.out.println("Error File Is Already Exist.");
+                break;
             }
-        }else {
-            System.out.println("Error This Path Not Exist.");
         }
+        for(int i=0 ; i<parent.getFiles().size();i++)
+            System.out.print(parent.getFiles().get(i).getName() + " ");
+        System.out.println();
     }
+//    public void deAllocation(ArrayList<Integer> allocatedBlocks){
+//        for(int i=allocatedBlocks.get(0); i<allocatedBlocks.get(0)+allocatedBlocks.get(1) ; i++) {
+//            this.blocks = blocks.substring(0, i) + "0" + blocks.substring(i + 1);
+//        }
+//    }
 
-    public void deleteFolder(String path){
-        Directory parent;
-        parent = Directory.checkPath(path, root);
-        String[] pathSections = path.split("/");
-        String newDirName = pathSections[pathSections.length-1];
-        if(parent != null){
-            int index = parent.dirExist(newDirName);
-            if(index != -1){
-                Directory tempDir = new Directory();
-                tempDir = parent.getSubDir().get(index);
-                System.out.println(tempDir.getName());
-                blocks = tempDir.removeThisDir(blocks);
-                parent.getSubDir().remove(index);
-
-            }else{
-                System.out.println("Error Folder Is Already Exist.");
-            }
-        }else {
-            System.out.println("Error This Path Not Exist.");
-        }
-    }
 }

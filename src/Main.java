@@ -3,16 +3,68 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
+    public static Scanner in = new Scanner(System.in);
+    public static void commands(allocation obj) throws IOException {
+        String cmd = "";
+        while(!cmd.equals("exit")){
+            cmd=in.nextLine();
+            String[] cmdSections = cmd.split(" ");
+            if(cmdSections[0].equals("CreateFile")){
+                obj.createFile(cmdSections[1], Integer.parseInt(cmdSections[2]));
+
+            } else if(cmdSections[0].equalsIgnoreCase("CreateFolder")) {
+                obj.createFolder(cmdSections[1]);
+            } else if(cmdSections[0].equalsIgnoreCase(("DeleteFile"))) {
+                Directory dir = Directory.checkPath(cmdSections[1], obj.getRoot()  );
+                String fileName[] = cmdSections[1].split("/");
+                obj.deAllocation(dir, fileName[fileName.length-1]);
+            } else if(cmdSections[0].equalsIgnoreCase(("DeleteFolder"))){
+                obj.deleteFolder(cmdSections[1]);
+            } else if(cmdSections[0].equalsIgnoreCase(("DisplayDiskStatus"))){
+                obj.DisplayDiskStatus();
+            } else if(cmdSections[0].equalsIgnoreCase(("DisplayDiskStructure"))) {
+                obj.DisplayDiskStructure();
+            } else {
+                break;
+            }
+            obj.getRoot().saveToFile(obj.getFileName(), obj.getBlocks());
+
+        }
+    }
+
+    public static void start() throws IOException {
+        String again="yes";
+        while(again.equals("yes")){
+            String choice;
+            System.out.println("Which technique do you want to apply?");
+            System.out.println("1- Contiguous allocation.");
+            System.out.println("2- Linked allocation.");
+            System.out.println("1- Indexed allocation.");
+
+            choice = in.nextLine();
+            allocation obj;
+            if(choice.equals("1")){
+                obj = new contiguousAllocation("contiguousAllocation.txt");
+            } else if(choice.equals("2")){
+                obj= new LinkedAllocation("linkedAllocation.txt");
+            } else {
+                obj = new IndexedAllocation("indexedAllocation.txt");
+            }
+            commands(obj);
+        }
+    }
 
     public static void main(String[] args) throws IOException {
-        contiguousAllocation test = new contiguousAllocation();
+        start();
+       // contiguousAllocation test = new contiguousAllocation();
         //System.out.println(test.getRoot().getDirStruct());
         //System.out.println(test.getBlocks());
         //LinkedAllocation linkedAllocation = new LinkedAllocation();
         //linkedAllocation.createFile("file.txt 7");
-        Directory root = new Directory();
+        /*Directory root = new Directory();
         root.setName("root");
         Directory dir1 = new Directory();
         dir1.setName("dir13");
@@ -41,7 +93,7 @@ public class Main {
         test.createFile("root/dir13/file214223124",3);
        // test.createFile("root/dir24/dir2/file31241241",5);
         test.deleteFile("root/dir1/file1");
-        test.deleteFolder("root/dir1");
+        test.deleteFolder("root/dir1");*/
 
         /*test.createFolder("root/dir1/dir2/dir2.1");
         test.createFile("root/dir1/dir2/dir2.1/file2.11", 5);
@@ -50,7 +102,7 @@ public class Main {
         for (int i = 0; i < root.getFiles().size(); i++) {
             System.out.println(root.getFiles().get(i));
         }*/
-        root.saveToFile("contiguousAllocation.txt", test.getBlocks());
+        //root.saveToFile("contiguousAllocation.txt", test.getBlocks());
         //System.out.println(root.getData("indexedAllocation.txt"));
 
 

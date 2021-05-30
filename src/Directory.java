@@ -97,24 +97,30 @@ public class Directory {
     public void addFile(file file){
         files.add(file);
     }
-    public String removeFile(String fileName, String blocks){
-        file temp;
-        for (int i = 0; i < files.size(); i++) {
-            temp = files.get(i);
-            if(fileName.equalsIgnoreCase(temp.getName())){
-                //   3 5
-                //0001010110
-                //000 + 0 + 010110
-                ArrayList<Integer> allocatedBlocks = temp.getAllocatedBlocks();
-                for (int j = 0; j < allocatedBlocks.size(); j++) {
-                    blocks = blocks.substring(0,allocatedBlocks.get(j))+'0'+ blocks.substring(allocatedBlocks.get(j) + 1);
-                }
-                files.remove(i);
-                break;
-            }
-        }
-        return blocks;
-    }
+//    public String removeFile(String fileName, String blocks){
+//        file temp;
+//        for(int i=0 ; i<files.size();i++)
+//            System.out.print(files.get(i).getName() + " ");
+//        System.out.println();
+//        for (int i = 0; i < files.size(); i++) {
+//            temp = files.get(i);
+//            if(fileName.equalsIgnoreCase(temp.getName())){
+////                //   3 5
+////                //0001010110
+////                //000 + 0 + 010110
+////                ArrayList<Integer> allocatedBlocks = temp.getAllocatedBlocks();
+////                for (int j = 0; j < allocatedBlocks.size(); j++) {
+////                    blocks = blocks.substring(0,allocatedBlocks.get(j))+'0'+ blocks.substring(allocatedBlocks.get(j) + 1);
+////                }
+//                files.remove(i);
+//                break;
+//            }
+//        }
+//        for(int i=0 ; i<files.size();i++)
+//            System.out.print(files.get(i).getName() + " ");
+//        System.out.println();
+//        return blocks;
+//    }
 /*
     public boolean removeDir(String dirName, String blocks){
         Directory temp;
@@ -145,16 +151,16 @@ public class Directory {
             }
         }
     }*/
-    public String removeThisDir(String blocks){
-        for (int j = 0; j < this.files.size(); j++) {
-            blocks = this.removeFile(this.files.get(j).getName(), blocks);
-        }
-        for (int i = 0; i < subDir.size(); i++) {
-            temp = subDir.get(i);
-            blocks = temp.removeThisDir(blocks);
-        }
-        return blocks;
-    }
+//    public String removeThisDir(String blocks){
+//        for (int j = 0; j < this.files.size(); j++) {
+//            blocks = this.removeFile(this.files.get(j).getName(), blocks);
+//        }
+//        for (int i = 0; i < subDir.size(); i++) {
+//            temp = subDir.get(i);
+//            blocks = temp.removeThisDir(blocks);
+//        }
+//        return blocks;
+//    }
 
     public void addDir(Directory dir){
         subDir.add(dir);
@@ -207,6 +213,7 @@ public class Directory {
     public Directory getData(String f) throws IOException {
         ArrayList<String>data = loadData(f);
         Directory root = new Directory();
+        if(data.size() == 2) return root;
         if(data.size()>0){
             root.setName(data.get(0));
             Stack<Directory>allDirs = new Stack<>();

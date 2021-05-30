@@ -2,44 +2,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class IndexedAllocation {
-    private Directory root;
-    private String blocks;
-    private String fileName;
+public class IndexedAllocation extends allocation{
 
-
-    public IndexedAllocation() throws IOException {
-        File temp = new File("indexedAllocation.txt");
-        fileName="indexedAllocation.txt";
-        root = new Directory();
-        if(temp.length() == 0){
-            blocks = "";
-            for (int i = 0; i < 1000; i++) {
-                blocks += "0";
-            }
-        }else{
-            root = root.getData(fileName);
-            blocks = root.getBlocks(fileName);
-        }
+    public IndexedAllocation(String fileName) throws IOException {
+        super(fileName);
     }
 
-    public String getBlocks() {
-        return blocks;
-    }
-
-    public void setBlocks(String blocks) {
-        this.blocks = blocks;
-    }
-
-    public Directory getRoot() {
-        return root;
-    }
-
-    public void setRoot(Directory root) {
-        this.root = root;
-    }
-
-    public int getEmptyBlockSize(){
+    private int getEmptyBlockSize(){
         int emptyBS = 0;
         for(int i = 0 ; i < blocks.length(); i++){
             if(blocks.charAt(i)=='0'){
@@ -49,21 +18,6 @@ public class IndexedAllocation {
         return emptyBS;
     }
 
-
-    public void DisplayDiskStatus(){
-        int allocatedSpace = 0;
-        for(int i = 0 ; i < blocks.length(); i++){
-            if(blocks.charAt(i)=='1') allocatedSpace++;
-        }
-        System.out.println("Empty space: " + (1000-allocatedSpace) + " KB");
-        System.out.println("Free space: " + (allocatedSpace) + " KB");
-        System.out.println("Empty Blocks in the Disk: " + (1000-allocatedSpace) + " blocks");
-        System.out.println("Allocated  Blocks in the Disk: " + (allocatedSpace) + " blocks");
-    }
-
-    public void DisplayDiskStructure(){
-        System.out.println(root.getDirStruct());
-    }
 
     public void createFile(String path, int size){
         Directory parent;
@@ -106,61 +60,28 @@ public class IndexedAllocation {
         }
     }
 
-    public void createFolder(String path){
-        Directory parent;
-        parent = Directory.checkPath(path, root);
-        String[] pathSections = path.split("/");
-        String newDirName = pathSections[pathSections.length-1];
-        if(parent != null){
-            if(!parent.fileExist(newDirName)){
-                Directory newDir = new Directory();
-                newDir.setName(newDirName);
-                newDir.setSubDir(new ArrayList<>());
-                newDir.setFiles(new ArrayList<>());
-                parent.addDir(newDir);
-            }else{
-                System.out.println("Error File Is Already Exist.");
+    @Override
+    public void deAllocation(Directory parent, String fileName) {
+        file temp;
+        for(int i=0 ; i<parent.getFiles().size();i++)
+            System.out.print(parent.getFiles().get(i).getName() + " ");
+        System.out.println();
+        for (int i = 0; i < parent.getFiles().size(); i++) {
+            temp = parent.getFiles().get(i);
+            if(fileName.equalsIgnoreCase(temp.getName())){
+//                //   3 5
+//                //0001010110
+//                //000 + 0 + 010110
+                ArrayList<Integer> allocatedBlocks = temp.getAllocatedBlocks();
+                for (int j = 0; j < allocatedBlocks.size(); j++) {
+                    this.blocks = this.blocks.substring(0,allocatedBlocks.get(j))+'0'+ this.blocks.substring(allocatedBlocks.get(j) + 1);
+                }
+                parent.getFiles().remove(i);
+                break;
             }
-        }else {
-            System.out.println("Error This Path Not Exist.");
         }
-    }
-
-    public void deleteFile(String path){
-        Directory parent;
-        parent = Directory.checkPath(path, root);
-        String[] pathSections = path.split("/");
-        String tempFileName = pathSections[pathSections.length-1];
-        if(parent != null){
-            if(parent.fileExist(tempFileName)){
-                blocks = parent.removeFile(tempFileName, blocks);
-            }else{
-                System.out.println("Error File Is Already Exist.");
-            }
-        }else {
-            System.out.println("Error This Path Not Exist.");
-        }
-    }
-
-    public void deleteFolder(String path){
-        Directory parent;
-        parent = Directory.checkPath(path, root);
-        String[] pathSections = path.split("/");
-        String newDirName = pathSections[pathSections.length-1];
-        if(parent != null){
-            int index = parent.dirExist(newDirName);
-            if(index != -1){
-                Directory tempDir = new Directory();
-                tempDir = parent.getSubDir().get(index);
-                System.out.println(tempDir.getName());
-                blocks = tempDir.removeThisDir(blocks);
-                parent.getSubDir().remove(index);
-
-            }else{
-                System.out.println("Error Folder Is Already Exist.");
-            }
-        }else {
-            System.out.println("Error This Path Not Exist.");
-        }
+        for(int i=0 ; i<parent.getFiles().size();i++)
+            System.out.print(parent.getFiles().get(i).getName() + " ");
+        System.out.println();
     }
 }
