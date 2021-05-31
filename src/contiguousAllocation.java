@@ -28,20 +28,22 @@ public class contiguousAllocation extends allocation{
     }
 
     private int calculateEmptyBlocks(){
-        int emptyBS = 0;
+        int emptyBS = 0,i;
         ArrayList<Integer> emptyBlocks = new ArrayList<Integer>();
         ArrayList<Integer> blocksLocation = new ArrayList<Integer>();
-        for(int i = 0 ; i < getBlocks().length(); i++){
-            if(blocks.charAt(i)=='0'){
-                blocksLocation.add(i);
+        for(i = 0 ; i < getBlocks().length(); i++){
+            if(blocks.charAt(i) == '0'){
                 emptyBS++;
             }
             else
             {
+                blocksLocation.add(i-emptyBS);
                 emptyBlocks.add(emptyBS);
                 emptyBS=0;
             }
         }
+        emptyBlocks.add(emptyBS);
+        blocksLocation.add(i-emptyBS);
         return blocksLocation.get(findMax(emptyBlocks));
     }
     private boolean emptyDisk()
