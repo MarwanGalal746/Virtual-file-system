@@ -82,7 +82,7 @@ public abstract class allocation {
         String[] pathSections = path.split("/");
         String newDirName = pathSections[pathSections.length-1];
         if(parent != null){
-            if(parent.dirExist(newDirName) != -1){
+            if(parent.dirExist(newDirName) == -1){
                 Directory newDir = new Directory();
                 newDir.setName(newDirName);
                 newDir.setSubDir(new ArrayList<>());
