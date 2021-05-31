@@ -27,7 +27,7 @@ The techniques which simulated in this project:
   In this scheme, each file is a linked list of disk blocks which need not be contiguous. The disk blocks can be scattered anywhere on the disk.
   The directory entry contains a pointer to the starting and the ending file block. Each block contains a pointer to the next block occupied by the file.
 
-In this program we are not creating actual files and folder, we will just simulate having a series of blocks and these blocks will be allocated to files when created and will be de-allocated when these files are deleted, our virtual file system information like (the files information, the folders information, the allocated blocks and so on) will be saved on files like [contiguousAllocation.txt](contiguousAllocation.txt), [indexedAllocation.txt](indexedAllocation.txt) and [linkedAllocation.txt](linkedAllocation.txt) to be loaded the next time you run the application.
+In this program we are not creating actual files and folder, we will just simulate having a series of blocks and these blocks will be allocated to files when created and will be de-allocated when these files are deleted, our virtual file system information like (the files information, the folders information, the allocated blocks and so on) will be saved on files like **contiguousAllocation.txt**, **indexedAllocation.txt** and **linkedAllocation.txt** to be loaded the next time you run the application.
 
 
 
