@@ -64,9 +64,6 @@ public class IndexedAllocation extends allocation{
     @Override
     public void deleteFile(Directory parent, String fileName) {
         file temp;
-//        for(int i=0 ; i<parent.getFiles().size();i++)
-//            System.out.print(parent.getFiles().get(i).getName() + " ");
-//        System.out.println();
         for (int i = 0; i < parent.getFiles().size(); i++) {
             temp = parent.getFiles().get(i);
             if(fileName.equalsIgnoreCase(temp.getName())){
@@ -81,8 +78,6 @@ public class IndexedAllocation extends allocation{
                 break;
             }
         }
-//        for(int i=0 ; i<parent.getFiles().size();i++)
-//            System.out.print(parent.getFiles().get(i).getName() + " ");
-        System.out.println();
+        System.out.println("Error File Not Exist");
     }
 }

@@ -61,7 +61,7 @@ public class Directory {
 
     boolean fileExist(String fileName){
         boolean found = false;
-        for (int i = 0; i < subDir.size(); i++) {
+        for (int i = 0; i < files.size(); i++) {
             if(files.size() > 0 && fileName.equalsIgnoreCase(files.get(i).getName())){
                 found = true;
                 break;
