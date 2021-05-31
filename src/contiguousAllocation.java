@@ -94,24 +94,18 @@ public class contiguousAllocation extends allocation{
         }else {
             System.out.println("Error This Path Not Exist.");
         }
+        System.out.println();
     }
 
     @Override
-    public void deAllocation(Directory parent, String fileName) {
+    public void deleteFile(Directory parent, String fileName) {
         file temp;
-        for(int i=0 ; i<parent.getFiles().size();i++)
-            System.out.print(parent.getFiles().get(i).getName() + " ");
-        System.out.println();
+//        for(int i=0 ; i<parent.getFiles().size();i++)
+//            System.out.print(parent.getFiles().get(i).getName() + " ");
+        //System.out.println();
         for (int i = 0; i < parent.getFiles().size(); i++) {
             temp = parent.getFiles().get(i);
             if(fileName.equalsIgnoreCase(temp.getName())){
-//                //   3 5
-//                //0001010110
-//                //000 + 0 + 010110
-//                ArrayList<Integer> allocatedBlocks = temp.getAllocatedBlocks();
-//                for (int j = 0; j < allocatedBlocks.size(); j++) {
-//                    blocks = blocks.substring(0,allocatedBlocks.get(j))+'0'+ blocks.substring(allocatedBlocks.get(j) + 1);
-//                }
                 for(int r=parent.getFiles().get(i).getAllocatedBlocks().get(0); r<parent.getFiles().get(i).getAllocatedBlocks().get(0)+parent.getFiles().get(i).getAllocatedBlocks().get(1) ; r++) {
                     this.blocks = this.blocks.substring(0, r) + "0" + this.blocks.substring(r + 1);
                 }
@@ -120,14 +114,8 @@ public class contiguousAllocation extends allocation{
                 break;
             }
         }
-        for(int i=0 ; i<parent.getFiles().size();i++)
-            System.out.print(parent.getFiles().get(i).getName() + " ");
+//        for(int i=0 ; i<parent.getFiles().size();i++)
+//            System.out.print(parent.getFiles().get(i).getName() + " ");
         System.out.println();
     }
-//    public void deAllocation(ArrayList<Integer> allocatedBlocks){
-//        for(int i=allocatedBlocks.get(0); i<allocatedBlocks.get(0)+allocatedBlocks.get(1) ; i++) {
-//            this.blocks = blocks.substring(0, i) + "0" + blocks.substring(i + 1);
-//        }
-//    }
-
 }

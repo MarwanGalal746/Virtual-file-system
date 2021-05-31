@@ -72,7 +72,7 @@ public abstract class allocation {
 
     abstract public void createFile(String path,int size);
 
-    abstract public void deAllocation(Directory parent, String fileName);
+    abstract public void deleteFile(Directory parent, String fileName);
 
 
 
@@ -96,25 +96,10 @@ public abstract class allocation {
         }
     }
 
-//    public void deleteFile(String path){
-//        Directory parent;
-//        parent = Directory.checkPath(path, root);
-//        String[] pathSections = path.split("/");
-//        String tempFileName = pathSections[pathSections.length-1];
-//        if(parent != null){
-//            if(!parent.fileExist(tempFileName)){
-//                blocks = parent.removeFile(tempFileName, blocks);
-//            }else{
-//                System.out.println("Error File Is Already Exist.");
-//            }
-//        }else {
-//            System.out.println("Error This Path Not Exist.");
-//        }
-//    }
 
-    public void removeThisDir(Directory dir, String blocks){
+    private void removeThisDir(Directory dir, String blocks){
         for (int j = 0; j < dir.getFiles().size(); j++) {
-            deAllocation(dir,dir.getFiles().get(j).getName());
+            deleteFile(dir,dir.getFiles().get(j).getName());
         }
         for (int i = 0; i < dir.getSubDir().size(); i++) {
             Directory temp = dir.getSubDir().get(i);
@@ -132,7 +117,7 @@ public abstract class allocation {
             if(index != -1){
                 Directory tempDir = new Directory();
                 tempDir = parent.getSubDir().get(index);
-                System.out.println(tempDir.getName());
+//                System.out.println(tempDir.getName());
                 removeThisDir(tempDir,blocks);
                 parent.getSubDir().remove(index);
 
@@ -142,6 +127,7 @@ public abstract class allocation {
         }else {
             System.out.println("Error This Path Not Exist.");
         }
+        System.out.println();
     }
 
 

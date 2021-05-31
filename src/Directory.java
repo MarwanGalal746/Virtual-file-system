@@ -325,7 +325,7 @@ public class Directory {
                 if(bw!=null)
                     bw.close();
             }catch(Exception ex){
-                System.out.println("Error in closing the BufferedWriter"+ex);
+                System.out.println("Error in closing the BufferedWriter "+ex);
             }
         }
     }

@@ -71,13 +71,17 @@ Open terminal in the directory of our repository and type the following commands
 
    
 
--  `DeleteFolder` :  This command used to delete a folder and it takes 1 parameter (path of the folder which will be deleted) but it requires existing this file under the path specified.
+- `DeleteFolder` :  This command used to delete a folder and it takes 1 parameter (path of the folder which will be deleted) but it requires existing this file under the path specified.
 
-    ex: `DeleteFolder root/folder1`
+   ex: `DeleteFolder root/folder1`
 
    In the previous example a folder named `folder1` under the path `root` will be deleted.
 
--  `DisplayDiskStatus` :  This command used to display the status of your driver and this status should contain empty space, allocated space, empty blocks in the disk and allocated blocks in the disk . It takes no parameters.
+   
+
+- `DisplayDiskStatus` :  This command used to display the status of your driver and this status should contain empty space, allocated space, empty blocks in the disk and allocated blocks in the disk . It takes no parameters.
+
+    
 
 -  `DisplayDiskStructure` :  This command will display the files and folders in your system file in a tree structure. It takes no parameters.
 
