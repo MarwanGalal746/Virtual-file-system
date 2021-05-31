@@ -75,7 +75,7 @@ public class IndexedAllocation extends allocation{
                     this.blocks = this.blocks.substring(0,allocatedBlocks.get(j))+'0'+ this.blocks.substring(allocatedBlocks.get(j) + 1);
                 }
                 parent.getFiles().remove(i);
-                break;
+                return;
             }
         }
         System.out.println("Error File Not Exist");
