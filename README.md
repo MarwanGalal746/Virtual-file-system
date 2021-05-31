@@ -33,13 +33,13 @@ In this program we are not creating actual files and folder, we will just simula
 
 ## 💻 Running
 
-Open terminal in the directory of our repository and type the following commands:
+Open the terminal or the command line in the directory of our repository and type the following commands:
 
-`$ cd ./src`
+`cd ./src`
 
-`$ javac *`
+`javac *`
 
-`$ java Main.java`
+`java Main.java`
 
 
 
