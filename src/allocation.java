@@ -98,10 +98,11 @@ public abstract class allocation {
 
 
     private void removeThisDir(Directory dir, String blocks){
-        for (int j = 0; j < dir.getFiles().size(); j++) {
+        int x= dir.getFiles().size();
+        for (int j = 0;dir.getFiles().size()>0; ) {
             deleteFile(dir,dir.getFiles().get(j).getName());
         }
-        for (int i = 0; i < dir.getSubDir().size(); i++) {
+        for (int i = 0; i<dir.getSubDir().size();i++) {
             Directory temp = dir.getSubDir().get(i);
             removeThisDir(temp, blocks);
         }
