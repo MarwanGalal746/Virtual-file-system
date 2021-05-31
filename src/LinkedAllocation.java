@@ -76,12 +76,10 @@ public class LinkedAllocation extends allocation {
                             "0" + this.blocks.substring(parent.getFiles().get(i).getAllocatedBlocks().get(r) + 1);
                 }
                     parent.getFiles().remove(i);
-
-                    break;
+                    return;
                 }
             }
-//            for (int i = 0; i < parent.getFiles().size(); i++)
-//                System.out.print(parent.getFiles().get(i).getName() + " ");
-            System.out.println();
+        System.out.println("Error File Not Exist");
     }
+
 }
