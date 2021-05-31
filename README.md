@@ -39,7 +39,7 @@ Open the terminal or the command line in the directory of our repository and typ
 
 `javac *`
 
-`java Main.java`
+`java Main`
 
 
 
