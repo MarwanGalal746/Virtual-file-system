@@ -6,7 +6,7 @@
 
 ## 📙 Summary
 
-This project is simulation of the allocation and de-allocation of files and folders using different allocation techniques.
+This project is simulation of the allocation and de-allocation of files and folders using different allocation techniques with protection level.
 
 The techniques which simulated in this project:
 
@@ -28,6 +28,10 @@ The techniques which simulated in this project:
   The directory entry contains a pointer to the starting and the ending file block. Each block contains a pointer to the next block occupied by the file.
 
 In this program we are not creating actual files and folder, we will just simulate having a series of blocks and these blocks will be allocated to files when created and will be de-allocated when these files are deleted, our virtual file system information like (the files information, the folders information, the allocated blocks and so on) will be saved on files like **contiguousAllocation.txt**, **indexedAllocation.txt** and **linkedAllocation.txt** to be loaded the next time you run the application.
+
+
+
+We store the information of the user in **user.txt** and their capabilities in **capabilities.txt**.
 
 
 
